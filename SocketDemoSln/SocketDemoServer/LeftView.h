@@ -39,6 +39,10 @@ protected:
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	void PopulateTree();
+	afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
+	int InsertInitialTree(HTREEITEM hTreeLevel1[3]);
 };
 
 #ifndef _DEBUG  // debug version in LeftView.cpp
