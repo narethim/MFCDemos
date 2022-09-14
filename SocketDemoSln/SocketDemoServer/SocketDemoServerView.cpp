@@ -44,6 +44,7 @@ BOOL CSocketDemoServerView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
+	cs.style |= LVS_REPORT;
 
 	return CListView::PreCreateWindow(cs);
 }
@@ -52,9 +53,53 @@ void CSocketDemoServerView::OnInitialUpdate()
 {
 	CListView::OnInitialUpdate();
 
-
 	// TODO: You may populate your ListView with items by directly accessing
 	//  its list control through a call to GetListCtrl().
+	TRACE(_T("CSocketDemoServerView::OnInitialUpdate()\n"));
+
+	// get list
+	CListCtrl& cThisList = GetListCtrl();
+
+	// enable full row select
+	DWORD dwStylebits = cThisList.GetExtendedStyle();
+	dwStylebits |= LVS_EX_FULLROWSELECT; //| LVS_SORTDESCENDING; // | LVS_EX_GRIDLINES;
+	cThisList.SetExtendedStyle(dwStylebits);
+
+
+	// build list columns
+	CRect cr;
+	GetClientRect(&cr);
+
+	// set up the grid column titles
+	CString s;
+	LV_COLUMN lvcol;
+	lvcol.cx = 100;
+	lvcol.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
+	lvcol.fmt = LVCFMT_LEFT;
+	lvcol.pszText = _T("Name");
+	lvcol.iSubItem = 0;
+	cThisList.InsertColumn(0, &lvcol);
+
+	// second col
+//	lvcol.fmt = LVCFMT_RIGHT;
+	lvcol.fmt = LVCFMT_LEFT;
+	lvcol.pszText = _T("Size");
+	lvcol.cx = 150;
+	lvcol.iSubItem = 1;
+	cThisList.InsertColumn(1, &lvcol);
+
+	// third col
+	lvcol.fmt = LVCFMT_LEFT;
+	lvcol.pszText = _T("Type");
+	lvcol.cx = 150;
+	lvcol.iSubItem = 2;
+	cThisList.InsertColumn(2, &lvcol);
+
+	// fourth col
+	lvcol.pszText = _T("Modified");
+	lvcol.cx = 500;
+	lvcol.iSubItem = 3;
+	cThisList.InsertColumn(3, &lvcol);
 }
 
 void CSocketDemoServerView::OnRButtonUp(UINT /* nFlags */, CPoint point)
