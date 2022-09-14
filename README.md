@@ -1,0 +1,2 @@
+# MFCDemos
+Example MFC applications
