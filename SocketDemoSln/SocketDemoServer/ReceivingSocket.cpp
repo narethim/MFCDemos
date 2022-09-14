@@ -19,6 +19,24 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 		// ((CMFCServerApp*)AfxGetApp())->m_pServerView->AddMsg( (CString)strRec );
 
 		((CSocketDemoServerApp*)AfxGetApp())->m_pServerView->AddMsg(strData);
+
+		//
+		// Send reply
+		//
+		CString strMsgReply(_T("OK"));
+
+		int len = strMsgReply.GetLength();
+		TCHAR* pData = strMsgReply.GetBuffer(len);
+
+		nCount = CSocket::Send(pData, len*2);
+		if (nCount > 0) {
+			TRACE(_T("Send() %d bytes OK\n"), nCount);
+		}
+		else {
+			TRACE(_T("ERROR: Send()\n"));
+
+		}
+
 	}
 	CSocket::OnReceive(nErrorCode);
 }
