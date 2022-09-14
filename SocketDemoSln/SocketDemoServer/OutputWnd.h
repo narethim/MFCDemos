@@ -46,6 +46,11 @@ protected:
 
 	void AdjustHorzScroll(CListBox& wndListBox);
 
+public:
+	void OutputBuildWindow(CString str);
+	void OutputDebugWindow(CString str);
+	void OutputFindWindow(CString str);
+
 // Implementation
 public:
 	virtual ~COutputWnd();

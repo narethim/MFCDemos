@@ -13,6 +13,8 @@
 #include "SocketDemoServerDoc.h"
 #include "SocketDemoServerView.h"
 
+#include "MainFrm.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -100,6 +102,33 @@ void CSocketDemoServerView::OnInitialUpdate()
 	lvcol.cx = 500;
 	lvcol.iSubItem = 3;
 	cThisList.InsertColumn(3, &lvcol);
+
+	//
+	// Excercise the output to Build, Debug, and Find output dockable windows
+	//
+	CWinApp* pApp = AfxGetApp();
+
+	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	COutputWnd * pWndOutput = pFrame->GetOutputWnd();
+
+	// Test - Build tab
+	if (pWndOutput != nullptr) {
+		CString str("Test: OutputBuildWindow - Build");
+		pWndOutput->OutputBuildWindow(str);   // Build message window
+	}
+
+	// Test  - Debug tab
+	if (pWndOutput != nullptr) {
+		CString str("Test: OutputDebugWindow() - Debug");
+		pWndOutput->OutputDebugWindow(str);   // Debug message window
+	}
+
+	// Test - Find tab
+	if (pWndOutput != nullptr) {
+		CString str("Test: OutputFindWindow() - Find");
+		pWndOutput->OutputFindWindow(str);   // Find message window
+	}
+
 }
 
 void CSocketDemoServerView::OnRButtonUp(UINT /* nFlags */, CPoint point)

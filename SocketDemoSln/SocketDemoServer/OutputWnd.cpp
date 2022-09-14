@@ -71,9 +71,9 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)2);
 
 	// Fill output tabs with some dummy text (nothing magic here)
-	FillBuildWindow();
-	FillDebugWindow();
-	FillFindWindow();
+	//FillBuildWindow();
+	//FillDebugWindow();
+	//FillFindWindow();
 
 	return 0;
 }
@@ -196,5 +196,29 @@ void COutputList::OnViewOutput()
 		pMainFrame->ShowPane(pParentBar, FALSE, FALSE, FALSE);
 		pMainFrame->RecalcLayout();
 
+	}
+}
+
+
+void COutputWnd::OutputBuildWindow(CString str)
+{
+	if (m_wndOutputBuild) {
+		m_wndOutputBuild.AddString(str);
+	}
+}
+
+
+void COutputWnd::OutputDebugWindow(CString str)
+{
+	if (m_wndOutputBuild) {
+		m_wndOutputDebug.AddString(str);
+	}
+}
+
+
+void COutputWnd::OutputFindWindow(CString str)
+{
+	if (m_wndOutputBuild) {
+		m_wndOutputFind.AddString(str);
 	}
 }

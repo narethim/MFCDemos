@@ -93,6 +93,17 @@ void CLeftView::PopulateTree()
 
 	treeCtrl.Expand(treeCtrl.GetRootItem(), TVE_EXPAND);
 
+	//
+	// Excercise the output to Debug output dockable windows
+	//
+	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	COutputWnd * pWndOutput = pFrame->GetOutputWnd();
+	// Test  - Debug tab
+	if (pWndOutput != nullptr) {
+		CString str("CLeftView::PopulateTree(): OutputDebugWindow() - Debug");
+		pWndOutput->OutputDebugWindow(str);   // Debug message window
+	}
+
 	CTreeView::UpdateWindow();
 }
 
@@ -115,7 +126,6 @@ void CLeftView::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 	CSocketDemoServerView * pView = (CSocketDemoServerView*)pFWnd->GetRightPane();
 	ASSERT(pView != NULL);
 	CListCtrl& listctrl = pView->GetListCtrl();
-
 
 	// what item got selected?
 	TV_ITEM strTvItem;

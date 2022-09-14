@@ -20,6 +20,9 @@ public:
 
 // Operations
 public:
+	COutputWnd * GetOutputWnd() {
+		return &m_wndOutput;
+	};
 
 // Overrides
 public:
