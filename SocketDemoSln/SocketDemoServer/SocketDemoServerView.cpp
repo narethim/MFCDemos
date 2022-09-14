@@ -10,10 +10,10 @@
 #include "SocketDemoServer.h"
 #endif
 
+#include "MainFrm.h"
 #include "SocketDemoServerDoc.h"
 #include "SocketDemoServerView.h"
 
-#include "MainFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -34,8 +34,7 @@ END_MESSAGE_MAP()
 
 CSocketDemoServerView::CSocketDemoServerView() noexcept
 {
-	// TODO: add construction code here
-
+	((CSocketDemoServerApp*)AfxGetApp())->m_pServerView = this;
 }
 
 CSocketDemoServerView::~CSocketDemoServerView()
@@ -56,6 +55,11 @@ void CSocketDemoServerView::OnInitialUpdate()
 	CListView::OnInitialUpdate();
 
 	// TODO: You may populate your ListView with items by directly accessing
+	CWinApp* pApp = AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	// COutputWnd * pWndOutput = pFrame->GetOutputWnd();
+	m_pWndOutput = pFrame->GetOutputWnd();
+
 	//  its list control through a call to GetListCtrl().
 	TRACE(_T("CSocketDemoServerView::OnInitialUpdate()\n"));
 
@@ -106,27 +110,23 @@ void CSocketDemoServerView::OnInitialUpdate()
 	//
 	// Excercise the output to Build, Debug, and Find output dockable windows
 	//
-	CWinApp* pApp = AfxGetApp();
-
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	COutputWnd * pWndOutput = pFrame->GetOutputWnd();
 
 	// Test - Build tab
-	if (pWndOutput != nullptr) {
+	if (m_pWndOutput != nullptr) {
 		CString str("Test: OutputBuildWindow - Build");
-		pWndOutput->OutputBuildWindow(str);   // Build message window
+		m_pWndOutput->OutputBuildWindow(str);   // Build message window
 	}
 
 	// Test  - Debug tab
-	if (pWndOutput != nullptr) {
+	if (m_pWndOutput != nullptr) {
 		CString str("Test: OutputDebugWindow() - Debug");
-		pWndOutput->OutputDebugWindow(str);   // Debug message window
+		m_pWndOutput->OutputDebugWindow(str);   // Debug message window
 	}
 
 	// Test - Find tab
-	if (pWndOutput != nullptr) {
+	if (m_pWndOutput != nullptr) {
 		CString str("Test: OutputFindWindow() - Find");
-		pWndOutput->OutputFindWindow(str);   // Find message window
+		m_pWndOutput->OutputFindWindow(str);   // Find message window
 	}
 
 }
@@ -171,4 +171,19 @@ void CSocketDemoServerView::OnStyleChanged(int nStyleType, LPSTYLESTRUCT lpStyle
 {
 	//TODO: add code to react to the user changing the view style of your window
 	CListView::OnStyleChanged(nStyleType,lpStyleStruct);
+}
+
+
+void CSocketDemoServerView::AddMsg(CString message)
+{
+	TRACE(_T("CSocketDemoServerView::AddMsg() message=%s\n"), message);
+
+	m_msgArray.Add(message);
+
+	// Test  - Debug tab
+	if (m_pWndOutput != nullptr) {
+		// CString str("Test: OutputDebugWindow() - Debug");
+		m_pWndOutput->OutputDebugWindow(message);   // Debug message window
+	}
+
 }

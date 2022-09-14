@@ -9,6 +9,12 @@
 
 #include "resource.h"       // main symbols
 
+#include "ServerSocket.h"
+#include "SocketDemoServerView.h"
+
+// Forward declraration
+//class CServerSocket;
+class CSocketDemoServerView;
 
 // CSocketDemoServerApp:
 // See SocketDemoServer.cpp for the implementation of this class
@@ -35,6 +41,12 @@ public:
 
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
+
+public:
+	CServerSocket   m_serverSocket;
+	// CServer2Socket  m_server2Socket;
+
+	CSocketDemoServerView* m_pServerView;
 };
 
 extern CSocketDemoServerApp theApp;

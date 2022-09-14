@@ -3,6 +3,8 @@
 //
 
 #pragma once
+#include "SocketDemoServerDoc.h"
+#include "OutputWnd.h"
 
 
 class CSocketDemoServerView : public CListView
@@ -33,6 +35,10 @@ public:
 #endif
 
 protected:
+	CStringArray m_msgArray;
+
+private:
+	COutputWnd * m_pWndOutput;
 
 // Generated message map functions
 protected:
@@ -41,6 +47,8 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	void AddMsg(CString message);
 };
 
 #ifndef _DEBUG  // debug version in SocketDemoServerView.cpp
