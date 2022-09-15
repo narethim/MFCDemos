@@ -220,8 +220,20 @@
     <ResourceCompile Include="SocketDemoServer.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\ball_blue.bmp" />
+    <Image Include="res\ball_green.bmp" />
+    <Image Include="res\ball_red.bmp" />
+    <Image Include="res\box_blue.bmp" />
+    <Image Include="res\box_green.bmp" />
+    <Image Include="res\box_red.bmp" />
+    <Image Include="res\box_white.bmp" />
+    <Image Include="res\box_yellow.bmp" />
+    <Image Include="res\ex_remot.bmp" />
+    <Image Include="res\folder_close_yellow.bmp" />
+    <Image Include="res\folder_open_yellow.bmp" />
     <Image Include="res\output_wnd.ico" />
     <Image Include="res\output_wnd_hc.ico" />
+    <Image Include="res\remote.bmp" />
     <Image Include="res\SocketDemoServer.ico" />
     <Image Include="res\SocketDemoServerDoc.ico" />
     <Image Include="res\Toolbar.bmp" />

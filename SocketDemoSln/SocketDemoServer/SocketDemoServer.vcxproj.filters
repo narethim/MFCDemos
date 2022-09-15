@@ -108,6 +108,42 @@
     <Image Include="res\Toolbar256.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\folder_close_yellow.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\folder_open_yellow.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\remote.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ex_remot.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ball_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ball_green.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ball_blue.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\box_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\box_green.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\box_blue.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\box_yellow.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\box_white.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\SocketDemoServer.rc2">

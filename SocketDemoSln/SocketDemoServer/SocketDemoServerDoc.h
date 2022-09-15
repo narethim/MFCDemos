@@ -5,6 +5,19 @@
 
 #pragma once
 
+constexpr  int IDB_F_CLOSE_Y = 0;
+constexpr  int IDB_F_OPEN_Y = 1;
+constexpr  int IDB_BALL_R = 2;
+constexpr  int IDB_BALL_G = 3;
+constexpr  int IDB_BALL_B = 4;
+constexpr  int IDB_BOX_W = 5;
+constexpr  int IDB_BOX_Y = 6;
+constexpr  int IDB_BOX_R = 7;
+constexpr  int IDB_BOX_G = 8;
+constexpr  int IDB_BOX_B = 9;
+constexpr  int IDB_REMOTE_C = 10;
+constexpr  int IDB_REMOTE_D = 11;
+
 
 class CSocketDemoServerDoc : public CDocument
 {

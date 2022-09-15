@@ -39,6 +39,7 @@ protected:
 
 private:
 	COutputWnd * m_pWndOutput;
+	CImageList m_ImagesList;
 
 // Generated message map functions
 protected:

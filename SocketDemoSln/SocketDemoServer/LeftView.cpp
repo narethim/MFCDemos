@@ -54,6 +54,25 @@ void CLeftView::OnInitialUpdate()
 	// TODO: You may populate your TreeView with items by directly accessing
 	//  its tree control through a call to GetTreeCtrl().
 
+	UINT bmparray[] = {
+		IDB_EX_F_CLOSE_Y, IDB_EX_F_OPEN_Y,
+		IDB_EX_BALL_R, IDB_EX_BALL_G, IDB_EX_BALL_B,
+		IDB_EX_BOX_W, IDB_EX_BOX_Y, IDB_EX_BOX_R, IDB_EX_BOX_G,IDB_EX_BOX_B,
+		IDB_EX_REMOTE_C, IDB_EX_REMOTE_D
+	};
+	CBitmap bitmap;
+	m_ImagesList.Create(16, 16, TRUE, 5, 5);
+
+	for (int i = 0; i < (sizeof(bmparray) / sizeof(UINT)); i++) {
+		bitmap.LoadBitmap(bmparray[i]);
+		m_ImagesList.Add(&bitmap, (COLORREF)0xFFFFFF);
+		bitmap.DeleteObject();
+	}
+	TRACE(_T("imageCount=%d\n"), m_ImagesList.GetImageCount());
+	CTreeCtrl& treeCtrl = GetTreeCtrl();
+
+	treeCtrl.SetImageList(&m_ImagesList, TVSIL_NORMAL);
+
 	PopulateTree();
 }
 
@@ -130,7 +149,7 @@ void CLeftView::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 	// what item got selected?
 	TV_ITEM strTvItem;
 	char szText[64]; // 64 should be enuf
-	strTvItem.mask = TVIF_CHILDREN | TVIF_TEXT;
+	strTvItem.mask = TVIF_CHILDREN | TVIF_TEXT | TVIF_IMAGE;
 	strTvItem.hItem = pNMTreeView->itemNew.hItem;
 	strTvItem.pszText = (LPTSTR)szText;
 	strTvItem.cchTextMax = 64;
@@ -173,6 +192,9 @@ void CLeftView::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 			lvitem.iItem = i;	                        // point to the row number
 			lvitem.iImage = strTvItem.iImage;           // image - same list at the tree's
 			int nRet = listctrl.InsertItem(&lvitem);  // do the insert
+
+			//int nRet = listctrl.InsertItem(i, lvitem.pszText, lvitem.iImage);  // do the insert
+
 			// a check
 			if (nRet != -1)
 			{

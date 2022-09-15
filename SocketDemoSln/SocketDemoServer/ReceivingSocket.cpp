@@ -34,7 +34,6 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 		}
 		else {
 			TRACE(_T("ERROR: Send()\n"));
-
 		}
 
 	}

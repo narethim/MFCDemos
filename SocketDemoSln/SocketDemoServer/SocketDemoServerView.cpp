@@ -55,6 +55,23 @@ void CSocketDemoServerView::OnInitialUpdate()
 	CListView::OnInitialUpdate();
 
 	// TODO: You may populate your ListView with items by directly accessing
+
+	UINT bmparray[] = {
+		IDB_EX_F_CLOSE_Y, IDB_EX_F_OPEN_Y,
+		IDB_EX_BALL_R, IDB_EX_BALL_G, IDB_EX_BALL_B,
+		IDB_EX_BOX_W, IDB_EX_BOX_Y, IDB_EX_BOX_R, IDB_EX_BOX_G,IDB_EX_BOX_B,
+		IDB_EX_REMOTE_C, IDB_EX_REMOTE_D
+	};
+	CBitmap bitmap;
+	m_ImagesList.Create(16, 16, TRUE, 5, 5);
+
+	for (int i = 0; i < (sizeof(bmparray) / sizeof(UINT)); i++) {
+		bitmap.LoadBitmap(bmparray[i]);
+		m_ImagesList.Add(&bitmap, (COLORREF)0xFFFFFF);
+		bitmap.DeleteObject();
+	}
+	TRACE(_T("imageCount=%d\n"), m_ImagesList.GetImageCount());
+
 	CWinApp* pApp = AfxGetApp();
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	// COutputWnd * pWndOutput = pFrame->GetOutputWnd();
@@ -66,9 +83,11 @@ void CSocketDemoServerView::OnInitialUpdate()
 	// get list
 	CListCtrl& cThisList = GetListCtrl();
 
+	cThisList.SetImageList(&m_ImagesList, LVSIL_SMALL); // LVSIL_NORMAL will not show icon, LVSIL_SMALL will
+
 	// enable full row select
 	DWORD dwStylebits = cThisList.GetExtendedStyle();
-	dwStylebits |= LVS_EX_FULLROWSELECT; //| LVS_SORTDESCENDING; // | LVS_EX_GRIDLINES;
+	dwStylebits |= LVS_EX_FULLROWSELECT | LVS_SORTDESCENDING | LVS_EX_GRIDLINES;
 	cThisList.SetExtendedStyle(dwStylebits);
 
 

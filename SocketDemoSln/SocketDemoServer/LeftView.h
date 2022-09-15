@@ -36,6 +36,9 @@ public:
 
 protected:
 
+private:
+	CImageList m_ImagesList;
+
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()
