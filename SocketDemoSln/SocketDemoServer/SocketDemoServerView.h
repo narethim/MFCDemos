@@ -50,6 +50,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	void AddMsg(CString message);
+	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 
 #ifndef _DEBUG  // debug version in SocketDemoServerView.cpp

@@ -27,6 +27,7 @@ protected: // create from serialization only
 
 // Attributes
 public:
+	bool m_bSocketConnect = false;
 
 // Operations
 public:

@@ -205,4 +205,12 @@ void CSocketDemoServerView::AddMsg(CString message)
 		m_pWndOutput->OutputDebugWindow(message);   // Debug message window
 	}
 
+	// m_pDocument->UpdateAllViews(this);
+}
+
+
+void CSocketDemoServerView::OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	TRACE(_T("CSocketDemoServerView::OnUpdate()\n"));
 }

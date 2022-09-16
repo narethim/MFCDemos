@@ -35,6 +35,7 @@ public:
 #endif
 
 protected:
+	HTREEITEM m_hTreeLevel1[100]; //, hTreeLevel2[10]; //, hTreeLevel3;
 
 private:
 	CImageList m_ImagesList;
@@ -46,6 +47,7 @@ public:
 	void PopulateTree();
 	afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
 	int InsertInitialTree(HTREEITEM hTreeLevel1[3]);
+	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 
 #ifndef _DEBUG  // debug version in LeftView.cpp

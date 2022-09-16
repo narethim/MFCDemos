@@ -31,7 +31,10 @@ END_MESSAGE_MAP()
 
 CLeftView::CLeftView()
 {
-	// TODO: add construction code here
+	int nSize = sizeof(m_hTreeLevel1) / sizeof(HTREEITEM);
+	for (int i = 0; i < nSize; i++) {
+		m_hTreeLevel1[i] = 0;
+	}
 }
 
 CLeftView::~CLeftView()
@@ -103,25 +106,25 @@ CSocketDemoServerDoc* CLeftView::GetDocument() // non-debug version is inline
 
 void CLeftView::PopulateTree()
 {
-	HTREEITEM hTreeLevel1[100]; //, hTreeLevel2[10]; //, hTreeLevel3;
+//	HTREEITEM hTreeLevel1[100]; //, hTreeLevel2[10]; //, hTreeLevel3;
 	CTreeCtrl& treeCtrl = GetTreeCtrl();
 
 	treeCtrl.DeleteAllItems();
 
-	InsertInitialTree(hTreeLevel1);
+	InsertInitialTree(m_hTreeLevel1);
 
 	treeCtrl.Expand(treeCtrl.GetRootItem(), TVE_EXPAND);
 
 	//
 	// Excercise the output to Debug output dockable windows
 	//
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	COutputWnd * pWndOutput = pFrame->GetOutputWnd();
-	// Test  - Debug tab
-	if (pWndOutput != nullptr) {
-		CString str("CLeftView::PopulateTree(): OutputDebugWindow() - Debug");
-		pWndOutput->OutputDebugWindow(str);   // Debug message window
-	}
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	//COutputWnd * pWndOutput = pFrame->GetOutputWnd();
+	//// Test  - Debug tab
+	//if (pWndOutput != nullptr) {
+	//	CString str("CLeftView::PopulateTree(): OutputDebugWindow() - Debug");
+	//	pWndOutput->OutputDebugWindow(str);   // Debug message window
+	//}
 
 	CTreeView::UpdateWindow();
 }
@@ -236,9 +239,40 @@ int CLeftView::InsertInitialTree(HTREEITEM hTreeLevel1[3])
 
 	hTreeRoot = treeCtrl.InsertItem(_T("root"), 0, 1);
 
-	hTreeLevel1[0] = treeCtrl.InsertItem(_T("Device 1"), 0, 1, hTreeRoot);
-	hTreeLevel1[1] = treeCtrl.InsertItem(_T("Device 2"), 0, 1, hTreeRoot);
-	hTreeLevel1[2] = treeCtrl.InsertItem(_T("Device 3"), 0, 1, hTreeRoot);
+	m_hTreeLevel1[0] = treeCtrl.InsertItem(_T("Device 1"), 0, 1, hTreeRoot);
+	m_hTreeLevel1[1] = treeCtrl.InsertItem(_T("Device 2"), 0, 1, hTreeRoot);
+	m_hTreeLevel1[2] = treeCtrl.InsertItem(_T("Device 3"), 0, 1, hTreeRoot);
 
 	return 0;
+}
+
+
+void CLeftView::OnUpdate(CView* pSender, LPARAM /*lHint*/, CObject* /*pHint*/)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	TRACE(_T("CLeftView::OnUpdate()\n"));
+	GetDocument()->m_bSocketConnect;
+
+	TRACE(_T("CLeftView::OnUpdate() - GetDocument()->m_bSocketConnect=%s\n"), 
+		GetDocument()->m_bSocketConnect ? _T("Connected") : _T("Disonnected"));
+
+	// Update Socket connection status icon.
+	if (m_hTreeLevel1[0]) {
+		if (GetDocument()->m_bSocketConnect) {
+			GetTreeCtrl().SetItemImage(m_hTreeLevel1[0], (int)IDB_BALL_G, (int)IDB_BALL_G);
+
+			//CString str = GetTreeCtrl().GetItemText(m_hTreeLevel1[0]);
+			//str += _T(" connected");
+			//GetTreeCtrl().SetItemText(m_hTreeLevel1[0], str);
+		}
+		else {
+			GetTreeCtrl().SetItemImage(m_hTreeLevel1[0], (int)IDB_BALL_R, (int)IDB_BALL_R);
+
+			//CString str = GetTreeCtrl().GetItemText(m_hTreeLevel1[0]);
+			//str += _T(" disconnected");
+			//GetTreeCtrl().SetItemText(m_hTreeLevel1[0], str);
+		}
+	}
+
+
 }

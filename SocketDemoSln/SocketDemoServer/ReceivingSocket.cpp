@@ -1,5 +1,6 @@
 #include "pch.h"
 
+#include "MainFrm.h"
 #include "SocketDemoServer.h"
 #include "ReceivingSocket.h"
 
@@ -45,8 +46,29 @@ void CReceivingSocket::OnClose(int nErrorCode)
 {
 	TRACE("CReceivingSocket::OnClose() - \n");
 
-	TRACE("\t Call CSocket::Detach() to detach it from Server2Socket\n");
-	CSocket::Detach();
+	TRACE("\t Call CSocket::Detach() to detach it from ServerSocket\n");
+	SOCKET retSocket = CSocket::Detach();
+
+	//---
+	//
+	// The following is to update 'pDoc->m_bSocketConnect' and tell other views to update the UI with this info
+	//  
+	CSocketDemoServerDoc* pDoc = nullptr;
+	CSocketDemoServerApp* pApp = (CSocketDemoServerApp*)AfxGetApp();
+	pDoc = pApp->m_pServerView->GetDocument();
+	pDoc->m_bSocketConnect = false;				// Indicated that this socket is disconnected
+	pDoc->UpdateAllViews(pApp->m_pServerView);	// tell other views to update the UI
+
+	//---
+	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	COutputWnd * pWndOutput = pFrame->GetOutputWnd();
+
+	if (pWndOutput != nullptr) {
+		CString strOutput("Socket closed - disconnected");
+		
+		pWndOutput->OutputDebugWindow(strOutput);   // Build message window
+	}
+	//---
 
 	CSocket::OnClose(nErrorCode);
 }
