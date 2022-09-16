@@ -64,7 +64,9 @@ void CReceivingSocket::OnClose(int nErrorCode)
 	COutputWnd * pWndOutput = pFrame->GetOutputWnd();
 
 	if (pWndOutput != nullptr) {
-		CString strOutput("Socket closed - disconnected");
+		CTime startTime = CTime::GetCurrentTime();		// NIM
+		CString strOutput;
+		strOutput.Format(_T("%s, Socket closed - disconnected"), startTime.Format("%D %H:%M:%S"));
 		
 		pWndOutput->OutputDebugWindow(strOutput);   // Build message window
 	}

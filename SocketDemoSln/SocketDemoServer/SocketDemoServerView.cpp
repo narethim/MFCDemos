@@ -126,27 +126,27 @@ void CSocketDemoServerView::OnInitialUpdate()
 	lvcol.iSubItem = 3;
 	cThisList.InsertColumn(3, &lvcol);
 
-	//
-	// Excercise the output to Build, Debug, and Find output dockable windows
-	//
+	////
+	//// Excercise the output to Build, Debug, and Find output dockable windows
+	////
 
-	// Test - Build tab
-	if (m_pWndOutput != nullptr) {
-		CString str("Test: OutputBuildWindow - Build");
-		m_pWndOutput->OutputBuildWindow(str);   // Build message window
-	}
+	//// Test - Build tab
+	//if (m_pWndOutput != nullptr) {
+	//	CString str("Test: OutputBuildWindow - Build");
+	//	m_pWndOutput->OutputBuildWindow(str);   // Build message window
+	//}
 
-	// Test  - Debug tab
-	if (m_pWndOutput != nullptr) {
-		CString str("Test: OutputDebugWindow() - Debug");
-		m_pWndOutput->OutputDebugWindow(str);   // Debug message window
-	}
+	//// Test  - Debug tab
+	//if (m_pWndOutput != nullptr) {
+	//	CString str("Test: OutputDebugWindow() - Debug");
+	//	m_pWndOutput->OutputDebugWindow(str);   // Debug message window
+	//}
 
-	// Test - Find tab
-	if (m_pWndOutput != nullptr) {
-		CString str("Test: OutputFindWindow() - Find");
-		m_pWndOutput->OutputFindWindow(str);   // Find message window
-	}
+	//// Test - Find tab
+	//if (m_pWndOutput != nullptr) {
+	//	CString str("Test: OutputFindWindow() - Find");
+	//	m_pWndOutput->OutputFindWindow(str);   // Find message window
+	//}
 
 }
 
@@ -201,8 +201,11 @@ void CSocketDemoServerView::AddMsg(CString message)
 
 	// Test  - Debug tab
 	if (m_pWndOutput != nullptr) {
-		// CString str("Test: OutputDebugWindow() - Debug");
-		m_pWndOutput->OutputDebugWindow(message);   // Debug message window
+		CTime startTime = CTime::GetCurrentTime();		// NIM
+		CString strOutput;
+
+		strOutput.Format(_T("%s, RECV, [%s]"), startTime.Format("%D %H:%M:%S"), message);
+		m_pWndOutput->OutputDebugWindow(strOutput);    // Debug message window
 	}
 
 	// m_pDocument->UpdateAllViews(this);

@@ -31,10 +31,11 @@ void CServerSocket::OnAccept(int nErrorCode)
 		if (pWndOutput != nullptr) {
 			CString strIP;
 			UINT nPort;
-			CString strOutput("Socket");
+			CString strOutput;
+			CTime startTime = CTime::GetCurrentTime();		// NIM
 
 			this->GetSockName(strIP, nPort);
-			strOutput.Format(_T("%s (%s:%d) connected"), strOutput, strIP, nPort);
+			strOutput.Format(_T("%s, Socket (%s:%d) connected"), startTime.Format("%D %H:%M:%S"), strIP, nPort);
 
 			pWndOutput->OutputDebugWindow(strOutput);   // Build message window
 		}
