@@ -251,14 +251,14 @@ void CLeftView::OnUpdate(CView* pSender, LPARAM /*lHint*/, CObject* /*pHint*/)
 {
 	// TODO: Add your specialized code here and/or call the base class
 	TRACE(_T("CLeftView::OnUpdate()\n"));
-	GetDocument()->m_bSocketConnect;
+	bool bConnect  = GetDocument()->m_serverSocket[0].GetConnection();
 
 	TRACE(_T("CLeftView::OnUpdate() - GetDocument()->m_bSocketConnect=%s\n"), 
-		GetDocument()->m_bSocketConnect ? _T("Connected") : _T("Disonnected"));
+		bConnect ? _T("Connected") : _T("Disonnected"));
 
 	// Update Socket connection status icon.
 	if (m_hTreeLevel1[0]) {
-		if (GetDocument()->m_bSocketConnect) {
+		if (bConnect) {
 			GetTreeCtrl().SetItemImage(m_hTreeLevel1[0], (int)IDB_BALL_G, (int)IDB_BALL_G);
 
 			//CString str = GetTreeCtrl().GetItemText(m_hTreeLevel1[0]);

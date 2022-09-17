@@ -6,6 +6,32 @@
 
 #include "ServerSocket.h"
 
+CServerSocket::CServerSocket(TCHAR* strName) :
+	m_nPort(6666), m_bConnection(false)
+{
+	wcscpy_s(m_strSockName, strName);
+	wcscpy_s(m_strIPAddress, _T("127.0.0.1"));
+}
+
+CServerSocket::CServerSocket(TCHAR* strName, TCHAR* strIP, UINT nPort) :
+	m_nPort(nPort), m_bConnection(false)
+{
+	wcscpy_s(m_strSockName, strName);
+	wcscpy_s(m_strIPAddress, strIP);
+}
+
+
+
+CServerSocket::CServerSocket() :
+	m_nPort(6666), m_bConnection(false)
+{
+	wcscpy_s(m_strSockName, _T("Device") );
+	wcscpy_s(m_strIPAddress, _T("127.0.0.1") );
+}
+
+CServerSocket::~CServerSocket()
+{
+}
 
 void CServerSocket::OnAccept(int nErrorCode)
 {
@@ -22,7 +48,7 @@ void CServerSocket::OnAccept(int nErrorCode)
 		CSocketDemoServerApp* pApp = (CSocketDemoServerApp*)AfxGetApp();
 
 		pDoc = pApp->m_pServerView->GetDocument();
-		pDoc->m_bSocketConnect = true;					// Indicated that this socket is connected
+		pDoc->m_serverSocket[0].SetConnection(true);					// Indicated that this socket is connected
 		pDoc->UpdateAllViews(pApp->m_pServerView);		// tell other views to update the UI
 
 		// Log to Debug output window  Test - Debug tab

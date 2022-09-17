@@ -5,6 +5,25 @@
 #include "ReceivingSocket.h"
 
 
+CReceivingSocket::CReceivingSocket() :
+	m_strSockName("Device"), m_bConnection(false)
+{
+
+}
+
+
+CReceivingSocket::CReceivingSocket(CString strName) :
+	m_strSockName(strName), m_bConnection(false)
+{
+
+}
+
+
+CReceivingSocket::~CReceivingSocket()
+{
+}
+
+
 void CReceivingSocket::OnReceive(int nErrorCode)
 {
 	TRACE(_T("CReceivingSocket::OnReceive() - Data Received\n"));
@@ -56,7 +75,7 @@ void CReceivingSocket::OnClose(int nErrorCode)
 	CSocketDemoServerDoc* pDoc = nullptr;
 	CSocketDemoServerApp* pApp = (CSocketDemoServerApp*)AfxGetApp();
 	pDoc = pApp->m_pServerView->GetDocument();
-	pDoc->m_bSocketConnect = false;				// Indicated that this socket is disconnected
+	pDoc->m_serverSocket[0].SetConnection(false);				// Indicated that this socket is disconnected
 	pDoc->UpdateAllViews(pApp->m_pServerView);	// tell other views to update the UI
 
 	//---

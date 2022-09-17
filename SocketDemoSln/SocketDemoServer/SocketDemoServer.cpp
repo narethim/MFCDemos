@@ -129,30 +129,30 @@ BOOL CSocketDemoServerApp::InitInstance()
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
-	// new nim
-	UINT nPort1 = 6666;
-	UINT nPort2 = 6660;
-	LPCTSTR lpszSocketAddress = _T("127.0.0.1");
+	//// new nim
+	//UINT nPort1 = 6666;
+	//UINT nPort2 = 6660;
+	//LPCTSTR lpszSocketAddress = _T("127.0.0.1");
 
-	//
-	// Create and listen m_serverSocket
-	//
-	TRACE(_T(" m_serverSocket.Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) \n"), nPort1, lpszSocketAddress);
-	BOOL bRet = m_serverSocket.Create(nPort1, 1, lpszSocketAddress);
-	if (bRet) {
-		TRACE(_T(" m_serverSocket.Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) SUCCESS\n"), nPort1, lpszSocketAddress);
+	////
+	//// Create and listen m_serverSocket
+	////
+	//TRACE(_T(" m_serverSocket.Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) \n"), nPort1, lpszSocketAddress);
+	//BOOL bRet = m_serverSocket.Create(nPort1, 1, lpszSocketAddress);
+	//if (bRet) {
+	//	TRACE(_T(" m_serverSocket.Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) SUCCESS\n"), nPort1, lpszSocketAddress);
 
-		bRet = m_serverSocket.Listen();
-		if (bRet) {
-			TRACE(_T(" m_serverSocket.Listen() SUCCESS\n"));
-		}
-		else {
-			TRACE(_T("ERROR:  m_serverSocket.Listen() FAILED\n"));
-		}
-	}
-	else {
-		TRACE(_T("ERROR:  m_serverSocket.Create() FAILED\n"));
-	}
+	//	bRet = m_serverSocket.Listen();
+	//	if (bRet) {
+	//		TRACE(_T(" m_serverSocket.Listen() SUCCESS\n"));
+	//	}
+	//	else {
+	//		TRACE(_T("ERROR:  m_serverSocket.Listen() FAILED\n"));
+	//	}
+	//}
+	//else {
+	//	TRACE(_T("ERROR:  m_serverSocket.Create() FAILED\n"));
+	//}
 
 	// Dispatch commands specified on the command line.  Will return FALSE if
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.

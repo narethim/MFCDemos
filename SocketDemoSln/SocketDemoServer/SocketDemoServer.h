@@ -43,7 +43,7 @@ public:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	CServerSocket   m_serverSocket;
+//	CServerSocket   m_serverSocket;
 	// CServer2Socket  m_server2Socket;
 
 	CSocketDemoServerView* m_pServerView;
