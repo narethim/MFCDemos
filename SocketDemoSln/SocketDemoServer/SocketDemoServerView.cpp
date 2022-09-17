@@ -204,7 +204,7 @@ void CSocketDemoServerView::AddMsg(CString message)
 		CTime startTime = CTime::GetCurrentTime();		// NIM
 		CString strOutput;
 
-		strOutput.Format(_T("%s, RECV, [%s]"), startTime.Format("%D %H:%M:%S"), message);
+		strOutput.Format(_T("%s, RECV, %s"), startTime.Format("%D %H:%M:%S"), message.GetBuffer() );
 		m_pWndOutput->OutputDebugWindow(strOutput);    // Debug message window
 	}
 

@@ -4,21 +4,28 @@
 #include "SocketDemoServer.h"
 #include "ReceivingSocket.h"
 
-
+// Default ctor
 CReceivingSocket::CReceivingSocket() :
 	m_strSockName("Device"), m_bConnection(false)
 {
 
 }
 
-
+// ctor with 1 argument
 CReceivingSocket::CReceivingSocket(CString strName) :
 	m_strSockName(strName), m_bConnection(false)
 {
 
 }
 
+// Copy ctor
+CReceivingSocket::CReceivingSocket(const CReceivingSocket& obj) :
+	m_bConnection(obj.m_bConnection), m_strSockName(obj.m_strSockName)
+{
+	// m_strSockName = obj.m_strSockName;
+}
 
+// Default dtor
 CReceivingSocket::~CReceivingSocket()
 {
 }
@@ -35,6 +42,8 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 	if (nCount > 0) {
 		TRACE(L"\t strRec=%s\n", strRec);
 		CString strData(strRec);
+
+		strData.Format(_T("%s, %s"), GetName(), strRec);
 
 		// ((CMFCServerApp*)AfxGetApp())->m_pServerView->AddMsg( (CString)strRec );
 
@@ -63,9 +72,9 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 
 void CReceivingSocket::OnClose(int nErrorCode)
 {
-	TRACE("CReceivingSocket::OnClose() - \n");
+	// TRACE("CReceivingSocket::OnClose() - \n");
 
-	TRACE("\t Call CSocket::Detach() to detach it from ServerSocket\n");
+	TRACE(_T("\t Call CSocket::Detach() to detach %s from ServerSocket\n"), GetName());
 	SOCKET retSocket = CSocket::Detach();
 
 	//---
@@ -75,7 +84,16 @@ void CReceivingSocket::OnClose(int nErrorCode)
 	CSocketDemoServerDoc* pDoc = nullptr;
 	CSocketDemoServerApp* pApp = (CSocketDemoServerApp*)AfxGetApp();
 	pDoc = pApp->m_pServerView->GetDocument();
-	pDoc->m_serverSocket[0].SetConnection(false);				// Indicated that this socket is disconnected
+
+	std::vector<CServerSocket>::iterator pos;
+	for (pos = pDoc->m_vectServerSocket.begin(); pos != pDoc->m_vectServerSocket.end(); ++pos)
+	{
+		// TRACE(_T("\t pos->GetName()=%s == GetName()=%s\n"), pos->GetName(), GetName());
+		if (pos->GetName() == GetName()) {
+			pos->SetConnection(false);	// Indicated that this socket is disconnected
+		}
+	}
+
 	pDoc->UpdateAllViews(pApp->m_pServerView);	// tell other views to update the UI
 
 	//---
@@ -85,7 +103,9 @@ void CReceivingSocket::OnClose(int nErrorCode)
 	if (pWndOutput != nullptr) {
 		CTime startTime = CTime::GetCurrentTime();		// NIM
 		CString strOutput;
-		strOutput.Format(_T("%s, Socket closed - disconnected"), startTime.Format("%D %H:%M:%S"));
+		CString strDateTime  = startTime.Format("%D %H:%M:%S");
+
+		strOutput.Format(_T("%s, Socket closed - disconnected"), strDateTime.GetBuffer());
 		
 		pWndOutput->OutputDebugWindow(strOutput);   // Build message window
 	}

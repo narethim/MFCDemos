@@ -36,6 +36,10 @@ CSocketDemoServerDoc::CSocketDemoServerDoc() noexcept
 
 CSocketDemoServerDoc::~CSocketDemoServerDoc()
 {
+	for (int i = 0; i < 3; i++) {
+		delete m_serverSocketArr[i];
+	}
+
 }
 
 BOOL CSocketDemoServerDoc::OnNewDocument()
@@ -47,68 +51,41 @@ BOOL CSocketDemoServerDoc::OnNewDocument()
 	// (SDI documents will reuse this document)
 
 	TRACE(_T("CSocketDemoServerDoc::OnNewDocument() \n"));
+	m_vectServerSocket.reserve(3);
 
-	// UINT nPort = 6666;
-	// LPCTSTR lpszSocketAddress = _T("127.0.0.1");
+	for (int i = 0; i < 3; i++) {
+		m_serverSocketArr[i] = new CServerSocket(m_serverNameArr[i], _T("127.0.0.1"), m_serverPortArr[i]);
+		m_serverSocketArr[i]->GetSocketPtr()->SetName(m_serverNameArr[i]);
+		m_vectServerSocket.push_back( *m_serverSocketArr[i] );
+	}
 
-	UINT nPort = m_serverSocket[0].GetPort();
-	LPCTSTR lpszSocketAddress = m_serverSocket[0].GetIPAddress();
+	for (int i = 0; i < 3; i++) {
+		
+		// m_vectServerSocket[i];
+		UINT nPort = m_vectServerSocket[i].GetPort();
+		LPCTSTR lpszSocketAddress = m_vectServerSocket[i].GetIPAddress();
 
-	//
-	// Create and listen m_serverSocket[0]
-	//
-	BOOL bRet = m_serverSocket[0].Create(nPort, 1, lpszSocketAddress);
-	if (bRet) {
-		TRACE(_T(" m_serverSocket[0].Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) SUCCESS\n"), 
-			nPort, lpszSocketAddress);
-
-		bRet = m_serverSocket[0].Listen();
+		//
+		// Create and listen m_serverSocket[0]
+		//
+		BOOL bRet = m_vectServerSocket[i].Create(nPort, 1, lpszSocketAddress);
 		if (bRet) {
-			TRACE(_T(" m_serverSocket[0].Listen() SUCCESS\n"));
+			TRACE(_T(" m_vectServerSocket[%d].Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) SUCCESS\n"), i,
+				nPort, lpszSocketAddress);
+
+			bRet = m_vectServerSocket[i].Listen();
+			if (bRet) {
+				TRACE(_T(" m_vectServerSocket[%d].Listen() SUCCESS\n"), i);
+			}
+			else {
+				TRACE(_T("ERROR:  m_vectServerSocket[%d].Listen() FAILED\n"), i);
+			}
 		}
 		else {
-			TRACE(_T("ERROR:  m_serverSocket[0].Listen() FAILED\n"));
+			TRACE(_T("ERROR: m_vectServerSocket[%d].Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) FAILED\n"), i,
+				nPort, lpszSocketAddress);
 		}
 	}
-	else {
-		TRACE(_T("ERROR: m_serverSocket[0].Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) FAILED\n"),
-			nPort, lpszSocketAddress);
-	}
-
-
-	//for (int i = 0; i < 3; i++) {
-	//	m_serverSocketArr[i] = new CServerSocket(m_serverNameArr[i], _T("127.0.0.1"), m_serverPortArr[i]);
-
-	//	m_vectServerSocket.push_back( *m_serverSocketArr[i] );
-	//}
-
-	//for (int i = 0; i < 3; i++) {
-	//	
-	//	// m_vectServerSocket[i];
-	//	UINT nPort = m_vectServerSocket[i].GetPort();
-	//	LPCTSTR lpszSocketAddress = m_vectServerSocket[i].GetIPAddress();
-
-	//	//
-	//	// Create and listen m_serverSocket[0]
-	//	//
-	//	BOOL bRet = m_vectServerSocket[i].Create(nPort, 1, lpszSocketAddress);
-	//	if (bRet) {
-	//		TRACE(_T(" m_vectServerSocket[%d].Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) SUCCESS\n"), i,
-	//			nPort, lpszSocketAddress);
-
-	//		bRet = m_vectServerSocket[i].Listen();
-	//		if (bRet) {
-	//			TRACE(_T(" m_vectServerSocket[%d].Listen() SUCCESS\n"), i);
-	//		}
-	//		else {
-	//			TRACE(_T("ERROR:  m_vectServerSocket[%d].Listen() FAILED\n"), i);
-	//		}
-	//	}
-	//	else {
-	//		TRACE(_T("ERROR: m_vectServerSocket[%d].Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) FAILED\n"), i,
-	//			nPort, lpszSocketAddress);
-	//	}
-	//}
 
 
 	return TRUE;

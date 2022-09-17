@@ -239,9 +239,15 @@ int CLeftView::InsertInitialTree(HTREEITEM hTreeLevel1[3])
 
 	hTreeRoot = treeCtrl.InsertItem(_T("root"), 0, 1);
 
-	m_hTreeLevel1[0] = treeCtrl.InsertItem(_T("Device 1"), 0, 1, hTreeRoot);
-	m_hTreeLevel1[1] = treeCtrl.InsertItem(_T("Device 2"), 0, 1, hTreeRoot);
-	m_hTreeLevel1[2] = treeCtrl.InsertItem(_T("Device 3"), 0, 1, hTreeRoot);
+	int i = 0;
+	CSocketDemoServerDoc* pDoc = GetDocument();
+	std::vector<CServerSocket>::iterator pos;
+	for (pos = pDoc->m_vectServerSocket.begin(); pos != pDoc->m_vectServerSocket.end(); ++pos)
+	{
+		// TRACE(_T("Name=%s\n"), pos->GetName());
+		m_hTreeLevel1[i] = treeCtrl.InsertItem(pos->GetName(), 0, 1, hTreeRoot);
+		i++;
+	}
 
 	return 0;
 }
@@ -249,30 +255,23 @@ int CLeftView::InsertInitialTree(HTREEITEM hTreeLevel1[3])
 
 void CLeftView::OnUpdate(CView* pSender, LPARAM /*lHint*/, CObject* /*pHint*/)
 {
-	// TODO: Add your specialized code here and/or call the base class
-	TRACE(_T("CLeftView::OnUpdate()\n"));
-	bool bConnect  = GetDocument()->m_serverSocket[0].GetConnection();
+	int i = 0;
+	CSocketDemoServerDoc* pDoc = GetDocument();
+	std::vector<CServerSocket>::iterator pos;
+	for (pos = pDoc->m_vectServerSocket.begin(); pos != pDoc->m_vectServerSocket.end(); ++pos)
+	{
+		bool bConnect = pos->GetConnection();
+		// TRACE(_T("CLeftView::OnUpdate() - bConnect=%s\n"), bConnect ? _T("Connected") : _T("Disonnected"));
 
-	TRACE(_T("CLeftView::OnUpdate() - GetDocument()->m_bSocketConnect=%s\n"), 
-		bConnect ? _T("Connected") : _T("Disonnected"));
-
-	// Update Socket connection status icon.
-	if (m_hTreeLevel1[0]) {
-		if (bConnect) {
-			GetTreeCtrl().SetItemImage(m_hTreeLevel1[0], (int)IDB_BALL_G, (int)IDB_BALL_G);
-
-			//CString str = GetTreeCtrl().GetItemText(m_hTreeLevel1[0]);
-			//str += _T(" connected");
-			//GetTreeCtrl().SetItemText(m_hTreeLevel1[0], str);
+		// Update Socket connection status icon.
+		if (m_hTreeLevel1[i]) {
+			if (bConnect) {
+				GetTreeCtrl().SetItemImage(m_hTreeLevel1[i], (int)IDB_BALL_G, (int)IDB_BALL_G);
+			}
+			else {
+				GetTreeCtrl().SetItemImage(m_hTreeLevel1[i], (int)IDB_BALL_R, (int)IDB_BALL_R);
+			}
 		}
-		else {
-			GetTreeCtrl().SetItemImage(m_hTreeLevel1[0], (int)IDB_BALL_R, (int)IDB_BALL_R);
-
-			//CString str = GetTreeCtrl().GetItemText(m_hTreeLevel1[0]);
-			//str += _T(" disconnected");
-			//GetTreeCtrl().SetItemText(m_hTreeLevel1[0], str);
-		}
+		i++;
 	}
-
-
 }

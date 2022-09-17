@@ -6,29 +6,45 @@
 
 #include "ServerSocket.h"
 
-CServerSocket::CServerSocket(TCHAR* strName) :
-	m_nPort(6666), m_bConnection(false)
-{
-	wcscpy_s(m_strSockName, strName);
-	wcscpy_s(m_strIPAddress, _T("127.0.0.1"));
-}
 
-CServerSocket::CServerSocket(TCHAR* strName, TCHAR* strIP, UINT nPort) :
-	m_nPort(nPort), m_bConnection(false)
-{
-	wcscpy_s(m_strSockName, strName);
-	wcscpy_s(m_strIPAddress, strIP);
-}
-
-
-
+// Default ctor
 CServerSocket::CServerSocket() :
 	m_nPort(6666), m_bConnection(false)
 {
-	wcscpy_s(m_strSockName, _T("Device") );
-	wcscpy_s(m_strIPAddress, _T("127.0.0.1") );
+	m_strSockName  = _T("Device");
+	m_strIPAddress = _T("127.0.0.1");
 }
 
+// ctor with 1 argument
+CServerSocket::CServerSocket(TCHAR* strName) :
+	m_nPort(6666), m_bConnection(false)
+{
+	m_strSockName = strName;
+	m_strIPAddress = _T("127.0.0.1");
+}
+
+// ctor with 3 arguments
+CServerSocket::CServerSocket(TCHAR* strName, TCHAR* strIP, UINT nPort) :
+	m_nPort(nPort), m_bConnection(false)
+{
+	m_strSockName = strName;
+	m_strIPAddress = strIP;
+}
+
+
+// Copy ctor
+CServerSocket::CServerSocket(const CServerSocket& obj) :
+	m_nPort(obj.m_nPort), m_bConnection(obj.m_bConnection) 
+{
+	static int nCount = 0;
+
+	m_strSockName = obj.m_strSockName;
+	m_strIPAddress= obj.m_strIPAddress;
+	m_ReceivingSocket = obj.m_ReceivingSocket;
+	TRACE(_T("CServerSocket::CServerSocket() Copy ctor nCount=%d\n"), nCount++);
+}
+
+// dtor
 CServerSocket::~CServerSocket()
 {
 }
@@ -40,7 +56,7 @@ void CServerSocket::OnAccept(int nErrorCode)
 
 	bool bRet = Accept(m_ReceivingSocket);
 	if (bRet) {
-		TRACE(_T("\t Connection accepted\n"));
+		TRACE(_T("\t Connection accepted %s:%d\n"), GetIPAddress(), GetPort());
 		//
 		// The following is to update 'pDoc->m_bSocketConnect' and tell other views to update the UI with this info 
 		// 
@@ -48,7 +64,25 @@ void CServerSocket::OnAccept(int nErrorCode)
 		CSocketDemoServerApp* pApp = (CSocketDemoServerApp*)AfxGetApp();
 
 		pDoc = pApp->m_pServerView->GetDocument();
-		pDoc->m_serverSocket[0].SetConnection(true);					// Indicated that this socket is connected
+
+		//int i = 0;
+		//for (CServerSocket server : pDoc->m_vectServerSocket) {
+		//	if (server.GetPort() == GetPort()) {
+		//		pDoc->m_vectServerSocket[i].SetConnection(true);	// Indicated that this socket is connected
+		//	}
+		//	i++;
+		//}
+
+		std::vector<CServerSocket>::iterator pos;
+		for (pos = pDoc->m_vectServerSocket.begin(); pos != pDoc->m_vectServerSocket.end(); ++pos)
+		{
+			//TRACE(_T("\t pos->GetName()=%s == GetName()=%s\n"), pos->GetName(), GetName());
+			if (pos->GetName() == GetName()) {
+				pos->SetConnection(true);	// Indicated that this socket is connected
+			}
+		}
+
+
 		pDoc->UpdateAllViews(pApp->m_pServerView);		// tell other views to update the UI
 
 		// Log to Debug output window  Test - Debug tab

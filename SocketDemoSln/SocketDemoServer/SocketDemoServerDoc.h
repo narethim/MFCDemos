@@ -31,15 +31,11 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	// bool m_bSocketConnect = false;
-
-	CServerSocket   m_serverSocket[3];
-
 	std::vector<CServerSocket> m_vectServerSocket;
 
 	CServerSocket* m_serverSocketArr[3];
 	TCHAR * m_serverNameArr[3] = { _T("Server 1"), _T("Server 2"), _T("Server 3") };
-	UINT  m_serverPortArr[3] = { 6661, 6661, 6661 };
+	UINT  m_serverPortArr[3] = { 6661, 6662, 6663 };
 
 // Operations
 public:
