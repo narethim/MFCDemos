@@ -43,7 +43,7 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 		TRACE(L"\t strRec=%s\n", strRec);
 		CString strData(strRec);
 
-		strData.Format(_T("%s, %s"), GetName(), strRec);
+		strData.Format(_T("%s, %s"), GetName().GetBuffer(), strRec);
 
 		// ((CMFCServerApp*)AfxGetApp())->m_pServerView->AddMsg( (CString)strRec );
 
@@ -105,7 +105,7 @@ void CReceivingSocket::OnClose(int nErrorCode)
 		CString strOutput;
 		CString strDateTime  = startTime.Format("%D %H:%M:%S");
 
-		strOutput.Format(_T("%s, Socket closed - disconnected"), strDateTime.GetBuffer());
+		strOutput.Format(_T("%s, %s, Socket closed - disconnected"), strDateTime.GetBuffer(), GetName().GetBuffer());
 		
 		pWndOutput->OutputDebugWindow(strOutput);   // Build message window
 	}

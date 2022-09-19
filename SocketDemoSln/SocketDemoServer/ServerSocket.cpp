@@ -95,7 +95,8 @@ void CServerSocket::OnAccept(int nErrorCode)
 			CTime startTime = CTime::GetCurrentTime();		// NIM
 
 			this->GetSockName(strIP, nPort);
-			strOutput.Format(_T("%s, Socket (%s:%d) connected"), startTime.Format("%D %H:%M:%S"), strIP, nPort);
+			strOutput.Format(_T("%s, %s, Socket (%s:%d) connected"), 
+				startTime.Format("%D %H:%M:%S").GetBuffer(), GetName().GetBuffer(), strIP.GetBuffer(), nPort);
 
 			pWndOutput->OutputDebugWindow(strOutput);   // Build message window
 		}
