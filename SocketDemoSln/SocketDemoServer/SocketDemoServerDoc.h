@@ -33,9 +33,11 @@ protected: // create from serialization only
 public:
 	std::vector<CServerSocket> m_vectServerSocket;
 
-	CServerSocket* m_serverSocketArr[3];
-	TCHAR * m_serverNameArr[3] = { _T("Server 1"), _T("Server 2"), _T("Server 3") };
-	UINT  m_serverPortArr[3] = { 6661, 6662, 6663 };
+	CServerSocket* m_serverSocketArr[11];
+//	TCHAR * m_serverNameArr[3] = { _T("Server 1"), _T("Server 2"), _T("Server 3") };
+	TCHAR * m_serverNameArr[11] = { _T("Vp"), _T("Vss"), _T("Vdd"), _T("Vad"), _T("Vbsc"), _T("Vrfsw1"), _T("Vrfsw2"), _T("Vrfsw3"), _T("RFMUX"), _T("DIO"), _T("PNA") };
+	TCHAR * m_serverIDArr[11]   = { _T("Vp"), _T("Vss"), _T("Vdd"), _T("Vad"), _T("Vbsc"), _T("Vrfsw1"), _T("Vrfsw2"), _T("Vrfsw3"), _T("RFMUX"), _T("DIO"), _T("PNA") };
+	UINT    m_serverPortArr[11] = { 6661, 6662, 6663, 6664, 6665, 6666, 6667, 6668, 6669, 6670, 6671 };
 
 // Operations
 public:

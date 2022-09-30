@@ -49,7 +49,12 @@ protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
 public:
-	void AddMsg(CString message);
+	void AddMsg(CString message);					// Receive from socket
+	void AddMsgDebug(CString message);				// Receive from socket
+
+	void AddSendMsg(CString message);				// send to socket
+	void AddSendMsgDebug(CString message);			// send to socket
+
 	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 

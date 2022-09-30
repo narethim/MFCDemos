@@ -36,8 +36,9 @@ CSocketDemoServerDoc::CSocketDemoServerDoc() noexcept
 
 CSocketDemoServerDoc::~CSocketDemoServerDoc()
 {
-	for (int i = 0; i < 3; i++) {
-		delete m_serverSocketArr[i];
+	//for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < sizeof(m_serverSocketArr) / sizeof(&m_serverSocketArr[0]); i++) {
+			delete m_serverSocketArr[i];
 	}
 
 }
@@ -51,16 +52,20 @@ BOOL CSocketDemoServerDoc::OnNewDocument()
 	// (SDI documents will reuse this document)
 
 	TRACE(_T("CSocketDemoServerDoc::OnNewDocument() \n"));
-	m_vectServerSocket.reserve(3);
+	m_vectServerSocket.reserve(10);
 
-	for (int i = 0; i < 3; i++) {
+//	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < sizeof(m_serverSocketArr) / sizeof(&m_serverSocketArr[0]); i++) {
 		m_serverSocketArr[i] = new CServerSocket(m_serverNameArr[i], _T("127.0.0.1"), m_serverPortArr[i]);
 		m_serverSocketArr[i]->GetSocketPtr()->SetName(m_serverNameArr[i]);
+		m_serverSocketArr[i]->GetSocketPtr()->SetID(m_serverIDArr[i]);
+
 		m_vectServerSocket.push_back( *m_serverSocketArr[i] );
 	}
 
-	for (int i = 0; i < 3; i++) {
-		
+//	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < sizeof(m_serverSocketArr) / sizeof(&m_serverSocketArr[0]); i++) {
+
 		// m_vectServerSocket[i];
 		UINT nPort = m_vectServerSocket[i].GetPort();
 		LPCTSTR lpszSocketAddress = m_vectServerSocket[i].GetIPAddress();

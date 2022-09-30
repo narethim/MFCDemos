@@ -195,7 +195,7 @@ void CSocketDemoServerView::OnStyleChanged(int nStyleType, LPSTYLESTRUCT lpStyle
 
 void CSocketDemoServerView::AddMsg(CString message)
 {
-//	TRACE(_T("CSocketDemoServerView::AddMsg() message=%s\n"), message);
+	TRACE(_T("CSocketDemoServerView::AddMsg() message=%s\n"), message);
 
 	m_msgArray.Add(message);
 
@@ -205,72 +205,11 @@ void CSocketDemoServerView::AddMsg(CString message)
 		CString strOutput;
 
 		strOutput.Format(_T("%s, RECV, %s"), startTime.Format("%D %H:%M:%S").GetBuffer(), message.GetBuffer() );
-		m_pWndOutput->OutputBuildWindow(strOutput);    // Build message window
+		m_pWndOutput->OutputBuildWindow(strOutput);    // Debug message window
 	}
 
 	// m_pDocument->UpdateAllViews(this);
 }
-
-
-void CSocketDemoServerView::AddMsgDebug(CString message)
-{
-	//	TRACE(_T("CSocketDemoServerView::AddMsgDebug() message=%s\n"), message);
-
-	m_msgArray.Add(message);
-
-	// Test  - Debug tab
-	if (m_pWndOutput != nullptr) {
-		CTime startTime = CTime::GetCurrentTime();		// NIM
-		CString strOutput;
-
-		strOutput.Format(_T("%s, RECV, %s"), startTime.Format("%D %H:%M:%S").GetBuffer(), message.GetBuffer());
-		m_pWndOutput->OutputDebugWindow(strOutput);    // Debug message window
-	}
-
-	// m_pDocument->UpdateAllViews(this);
-}
-
-//----------------
-
-// send to socket
-
-void CSocketDemoServerView::AddSendMsg(CString message)
-{
-	//	TRACE(_T("CSocketDemoServerView::AddMsg() message=%s\n"), message);
-
-	m_msgArray.Add(message);
-
-	// Test  - Debug tab
-	if (m_pWndOutput != nullptr) {
-		CTime startTime = CTime::GetCurrentTime();		// NIM
-		CString strOutput;
-
-		strOutput.Format(_T("%s, SEND, %s"), startTime.Format("%D %H:%M:%S").GetBuffer(), message.GetBuffer());
-		m_pWndOutput->OutputBuildWindow(strOutput);    // Build message window
-	}
-
-	// m_pDocument->UpdateAllViews(this);
-}
-
-
-void CSocketDemoServerView::AddSendMsgDebug(CString message)
-{
-	//	TRACE(_T("CSocketDemoServerView::AddMsgDebug() message=%s\n"), message);
-
-	m_msgArray.Add(message);
-
-	// Test  - Debug tab
-	if (m_pWndOutput != nullptr) {
-		CTime startTime = CTime::GetCurrentTime();		// NIM
-		CString strOutput;
-
-		strOutput.Format(_T("%s, SEND, %s"), startTime.Format("%D %H:%M:%S").GetBuffer(), message.GetBuffer());
-		m_pWndOutput->OutputDebugWindow(strOutput);    // Debug message window
-	}
-
-	// m_pDocument->UpdateAllViews(this);
-}
-
 
 
 void CSocketDemoServerView::OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/)

@@ -4,29 +4,23 @@
 #include "SocketDemoServer.h"
 #include "ReceivingSocket.h"
 
-#include "SimpleCommand.h"
-#include "ComplexCommand.h"
-#include "ScpiCommand.h"
-#include "Invoker.h"
-
-
 // Default ctor
 CReceivingSocket::CReceivingSocket() :
-	m_strSockName("Device"), m_bConnection(false), m_strID("DeviceID")
+	m_strSockName("Device"), m_bConnection(false)
 {
 
 }
 
 // ctor with 1 argument
 CReceivingSocket::CReceivingSocket(CString strName) :
-	m_strSockName(strName), m_bConnection(false), m_strID("DeviceID")
+	m_strSockName(strName), m_bConnection(false)
 {
 
 }
 
 // Copy ctor
 CReceivingSocket::CReceivingSocket(const CReceivingSocket& obj) :
-	m_bConnection(obj.m_bConnection), m_strSockName(obj.m_strSockName), m_strID(obj.m_strID)
+	m_bConnection(obj.m_bConnection), m_strSockName(obj.m_strSockName)
 {
 	// m_strSockName = obj.m_strSockName;
 }
@@ -41,62 +35,35 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 {
 	TRACE(_T("CReceivingSocket::OnReceive() - Data Received\n"));
 
-	char strRec[256] = "";
-	// TCHAR strRec[256] = L"";
+	//	char strRec[256] = "";
+	TCHAR strRec[256] = L"";
 
 	int nCount = CSocket::Receive(strRec, 256);
 	if (nCount > 0) {
-//		TRACE(L"\t 0 strRec=%s\n", strRec);
-//		TRACE(L"\t 1 strRec=%s", CString(strRec) );
-		TRACE(_T("\t 2 [%s] strRec=%s"), GetName().GetBuffer(), CString(strRec));
-
+		TRACE(L"\t strRec=%s\n", strRec);
 		CString strData(strRec);
-		CString strScpiData(strRec);
 
-//		strData.Format(_T("%s, %s"), GetName().GetBuffer(), strRec);
-		strData.Format(_T("%s, %s"), GetName().GetBuffer(), CString(strRec) );
+		strData.Format(_T("%s, %s"), GetName().GetBuffer(), strRec);
 
 		// ((CMFCServerApp*)AfxGetApp())->m_pServerView->AddMsg( (CString)strRec );
 
-		if (GetName() == _T("DIO")) {
-			((CSocketDemoServerApp*)AfxGetApp())->m_pServerView->AddMsgDebug(strData);
-		}
-		else {
-
-			((CSocketDemoServerApp*)AfxGetApp())->m_pServerView->AddMsg(strData);
-		}
+		((CSocketDemoServerApp*)AfxGetApp())->m_pServerView->AddMsg(strData);
 
 		//
 		// Send reply
 		//
-		//CString strMsgReply(_T("OK"));
+		CString strMsgReply(_T("OK"));
 
-		//int len = strMsgReply.GetLength();
-		//TCHAR* pData = strMsgReply.GetBuffer(len);
+		int len = strMsgReply.GetLength();
+		TCHAR* pData = strMsgReply.GetBuffer(len);
 
-		//nCount = CSocket::Send(pData, len*2);
-		//if (nCount > 0) {
-		//	TRACE(_T("Send() %d bytes OK\n"), nCount);
-		//}
-		//else {
-		//	TRACE(_T("ERROR: Send()\n"));
-		//}
-
-
-		//
-		// Experiment with Command
-		//
-		//m_CInvoker.SetOnStart(new CSimpleCommand("Say Hi!") );
-
-		//m_CInvoker.SetOnFinish(new CSimpleCommand("Say Hi Again!"));
-
-		// m_CInvoker.SetOnFinish(new CComplexCommand(&m_CReceiver, "Send email", "Save report") );
-
-		// m_CInvoker.SetOnFinish(new CScpiCommand(&m_CSocketReceiver, this, _T("*IDN?") ));
-		m_CInvoker.SetOnFinish(new CScpiCommand(&m_CSocketReceiver, this, strScpiData) );
-
-
-		m_CInvoker.DoSomethingImportant();
+		nCount = CSocket::Send(pData, len*2);
+		if (nCount > 0) {
+			TRACE(_T("Send() %d bytes OK\n"), nCount);
+		}
+		else {
+			TRACE(_T("ERROR: Send()\n"));
+		}
 
 	}
 	CSocket::OnReceive(nErrorCode);
