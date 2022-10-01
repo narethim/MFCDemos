@@ -41,6 +41,7 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 {
 	TRACE(_T("CReceivingSocket::OnReceive() - Data Received\n"));
 
+	static size_t nStaticCount = 0;
 	char strRec[256] = "";
 	// TCHAR strRec[256] = L"";
 
@@ -59,7 +60,10 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 		// ((CMFCServerApp*)AfxGetApp())->m_pServerView->AddMsg( (CString)strRec );
 
 		if (GetName() == _T("DIO")) {
-			((CSocketDemoServerApp*)AfxGetApp())->m_pServerView->AddMsgDebug(strData);
+			//if (nStaticCount % 60 == 0) {
+				((CSocketDemoServerApp*)AfxGetApp())->m_pServerView->AddMsgDebug(strData);
+			//}
+			nStaticCount++;
 		}
 		else {
 
@@ -67,34 +71,15 @@ void CReceivingSocket::OnReceive(int nErrorCode)
 		}
 
 		//
-		// Send reply
-		//
-		//CString strMsgReply(_T("OK"));
-
-		//int len = strMsgReply.GetLength();
-		//TCHAR* pData = strMsgReply.GetBuffer(len);
-
-		//nCount = CSocket::Send(pData, len*2);
-		//if (nCount > 0) {
-		//	TRACE(_T("Send() %d bytes OK\n"), nCount);
-		//}
-		//else {
-		//	TRACE(_T("ERROR: Send()\n"));
-		//}
-
-
-		//
 		// Experiment with Command
 		//
+
 		//m_CInvoker.SetOnStart(new CSimpleCommand("Say Hi!") );
-
 		//m_CInvoker.SetOnFinish(new CSimpleCommand("Say Hi Again!"));
-
 		// m_CInvoker.SetOnFinish(new CComplexCommand(&m_CReceiver, "Send email", "Save report") );
-
 		// m_CInvoker.SetOnFinish(new CScpiCommand(&m_CSocketReceiver, this, _T("*IDN?") ));
-		m_CInvoker.SetOnFinish(new CScpiCommand(&m_CSocketReceiver, this, strScpiData) );
 
+		m_CInvoker.SetOnFinish(new CScpiCommand(&m_CSocketReceiver, this, strScpiData) );
 
 		m_CInvoker.DoSomethingImportant();
 

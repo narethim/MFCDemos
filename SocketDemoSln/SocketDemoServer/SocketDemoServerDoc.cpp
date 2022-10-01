@@ -38,7 +38,7 @@ CSocketDemoServerDoc::~CSocketDemoServerDoc()
 {
 	//for (int i = 0; i < 4; i++) {
 	for (int i = 0; i < sizeof(m_serverSocketArr) / sizeof(&m_serverSocketArr[0]); i++) {
-			delete m_serverSocketArr[i];
+		delete m_serverSocketArr[i];
 	}
 
 }
@@ -52,7 +52,7 @@ BOOL CSocketDemoServerDoc::OnNewDocument()
 	// (SDI documents will reuse this document)
 
 	TRACE(_T("CSocketDemoServerDoc::OnNewDocument() \n"));
-	m_vectServerSocket.reserve(10);
+	m_vectServerSocket.reserve(20);
 
 //	for (int i = 0; i < 4; i++) {
 	for (int i = 0; i < sizeof(m_serverSocketArr) / sizeof(&m_serverSocketArr[0]); i++) {
@@ -87,11 +87,10 @@ BOOL CSocketDemoServerDoc::OnNewDocument()
 			}
 		}
 		else {
-			TRACE(_T("ERROR: m_vectServerSocket[%d].Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) FAILED\n"), i,
-				nPort, lpszSocketAddress);
+			TRACE(_T("ERROR: m_vectServerSocket[%d].Create(nSocketPort=%d, nSocketType=1, lpszSocketAddress=%s) FAILED\n"), 
+				i, nPort, lpszSocketAddress);
 		}
 	}
-
 
 	return TRUE;
 }
